@@ -48,7 +48,8 @@ static bool is_program(const char* prog) {
     char next_char;
     size_t index = 0;
 
-    read_char(program_file, &next_char);
+    if (!read_char(program_file, &next_char))
+        internal_error("File input", "Unknown I/O error occurred");
 
     // Check every character in magic suffix
     for (; index < sizeof magic_program_id; index++) {
@@ -58,7 +59,8 @@ static bool is_program(const char* prog) {
             goto not_program;
 
         // Otherwise, read next character
-        read_char(program_file, &next_char);
+        if (!read_char(program_file, &next_char) && !feof(program_file))
+            internal_error("File input", "Could not run compiler: permission denied");
     }
 
     // The entire suffix matches with the file only if both have ended
