@@ -92,7 +92,7 @@ static bool is_source_valid(const char* source_filename) {
 
     // Check every character in working source
     for (; *working_source; working_source++) {
-        char next_char = getc(source_file);
+        int next_char = getc(source_file);
 
         // Source file doesn't match; stop
         if (next_char == EOF || next_char != *working_source)
